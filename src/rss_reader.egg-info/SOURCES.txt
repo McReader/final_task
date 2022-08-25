@@ -1,0 +1,11 @@
+LICENSE.txt
+README.md
+setup.cfg
+setup.py
+src/rss_reader/__init__.py
+src/rss_reader.egg-info/PKG-INFO
+src/rss_reader.egg-info/SOURCES.txt
+src/rss_reader.egg-info/dependency_links.txt
+src/rss_reader.egg-info/entry_points.txt
+src/rss_reader.egg-info/requires.txt
+src/rss_reader.egg-info/top_level.txt

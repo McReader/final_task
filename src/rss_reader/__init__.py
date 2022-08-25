@@ -15,6 +15,6 @@ parser.add_argument(
 parser.add_argument(
     '--limit', help='Limit news topics if this parameter provided')
 
-args = parser.parse_args()
 
-parser.print_help()
+def main():
+    args = parser.parse_args()

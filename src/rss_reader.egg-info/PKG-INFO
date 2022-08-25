@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: rss-reader
+Version: 1.0
+Summary: Pure Python command-line RSS reader
+Home-page: https://github.com/McReader/final_task
+Author: Dzianis Roi (McReader)
+Author-email: mcreader215@gmail.com
+License: MIT
+Platform: UNKNOWN
+Requires-Python: >=3.9
+License-File: LICENSE.txt
+
+UNKNOWN
+
