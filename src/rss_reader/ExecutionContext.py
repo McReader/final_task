@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .ExecutionArgs import ExecutionArgs
+from .ExecutionParams import ExecutionParams
 from .Feed import Feed
 
 
@@ -8,5 +8,5 @@ from .Feed import Feed
 class ExecutionContext(object):
     """Class for keeping the context of the execution."""
 
-    args: ExecutionArgs = None
+    args: ExecutionParams = None
     feed: list[Feed] = None

@@ -1,15 +1,17 @@
-from rss_reader.ExecutionContext import ExecutionContext
+import logging
+
 from .handlers.Handler import Handler
+from .ExecutionContext import ExecutionContext
 
 
 class Chain:
-    def __init__(self, handlers: list[Handler]):
+    def __init__(self, *handlers: list[Handler]):
         self.handlers = handlers
 
     def execute(self) -> None:
         ctx = ExecutionContext()
 
         for handler in self.handlers:
-            print('Executing handler: {}'.format(handler.name))
+            logging.info(f"Executing handler {handler.name}")
             handler.handle(ctx=ctx)
-            print('Handler executed: {}'.format(handler.name))
+            logging.info(f"Handler {handler.name} executed")

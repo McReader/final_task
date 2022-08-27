@@ -1,5 +1,3 @@
-from collections.abc import Callable
-
 from .Handler import Handler
 from ..ExecutionContext import ExecutionContext
 
