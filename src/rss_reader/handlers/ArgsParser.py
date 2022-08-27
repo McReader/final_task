@@ -1,6 +1,5 @@
 import argparse
 import datetime
-from collections.abc import Callable
 
 from .Handler import Handler
 from ..ExecutionContext import ExecutionContext
@@ -9,6 +8,8 @@ from ..ExecutionArgs import ExecutionArgs
 
 class ArgsParser(Handler):
     def __init__(self):
+        super().__init__(ArgsParser.__name__)
+
         parser = argparse.ArgumentParser(
             description='Pure Python command-line RSS reader.')
 
