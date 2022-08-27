@@ -1,4 +1,5 @@
 import argparse
+import datetime
 
 parser = argparse.ArgumentParser(
     description='Pure Python command-line RSS reader.')
@@ -14,6 +15,8 @@ parser.add_argument(
     '--verbose', help='Outputs verbose status messages', action='store_false')
 parser.add_argument(
     '--limit', help='Limit news topics if this parameter provided')
+parser.add_argument('--date', help='Read articles starting from this date',
+                    type=lambda s: datetime.datetime.strptime(s, '%Y%m%d'))
 
 
 def main():
