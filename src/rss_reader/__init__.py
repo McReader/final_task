@@ -18,11 +18,11 @@ def main():
 
     args = args_parser.parse_args()
     params = ExecutionParams(
-        args.source, args.json, args.date, args.limit)
+        args.source[0], args.json, args.date, args.limit)
 
     logging.basicConfig(level=args.log_level)
 
-    chain.execute()
+    chain.execute(params)
 
 
 if __name__ == "__main__":
