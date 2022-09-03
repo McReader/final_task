@@ -47,11 +47,13 @@ class FeedReader(Handler):
 
     def _create_feed(self, response: dict) -> Feed:
         """Creates the feed from the response"""
+        feed_response = response.feed
         return Feed(
-            title=response.title,
-            link=response.link,
-            description=response.description,
-            entries=self._create_entries(response.entries)
+            title=feed_response.title,
+            link=feed_response.link,
+            description=feed_response.description,
+            entries=self._create_entries(response.entries),
+            published=feed_response.published_parsed
         )
 
     def _create_entries(self, entries: list) -> list:
@@ -61,8 +63,9 @@ class FeedReader(Handler):
     def _create_entry(self, entry: dict) -> FeedEntry:
         """Creates the feed entry from the response"""
         return FeedEntry(
+            id=entry.id,
             title=entry.title,
             link=entry.link,
-            description=entry.description,
-            published=entry.published
+            description="",
+            published=entry.published_parsed
         )

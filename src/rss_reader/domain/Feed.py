@@ -12,4 +12,4 @@ class Feed(object):
     link: str
     description: str
     published: date
-    entries: list[FeedEntry] = []
+    entries: list[FeedEntry]
