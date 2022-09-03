@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from .ExecutionParams import ExecutionParams
-from .Feed import Feed
+from .domain.Feed import Feed
 
 
 @dataclass

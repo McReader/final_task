@@ -1,35 +1,26 @@
 import feedparser
 
-from .Handler import Handler
-from ..ExecutionContext import ExecutionContext
 from ..domain import Feed, FeedEntry
+from ..ExecutionParams import ExecutionParams
 
 
-class FeedReader(Handler):
-    """A link of the chain responsible for the feed download"""
+class FeedReader:
+    """Downloads the feed from the source"""
 
     def __init__(self):
-        super().__init__(FeedReader.__name__)
+        pass
 
-    def handle(self, ctx: ExecutionContext):
+    def load(self, params: ExecutionParams) -> Feed:
         """Loads the feed from the "source" specified by user.
 
         Keyword arguments:
-            ctx: execution context of the entire chain
-        """
-        feed = self.load(ctx.args.source)
-
-        ctx.feed = feed
-
-    def load(self, source: str) -> Feed:
-        """Loads the feed from the "source" specified by user.
-
-        Keyword arguments:
-            source: feed source
+            params: execution params
 
         Returns:
             feed
         """
+        source = params.source
+
         try:
             response = feedparser.parse(source)
             if response.bozo:

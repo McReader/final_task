@@ -2,6 +2,8 @@ import argparse
 import logging
 import datetime
 
+from .ExecutionParams import ExecutionParams
+
 
 class ArgsParser:
     def __init__(self):
@@ -26,5 +28,8 @@ class ArgsParser:
 
     """Parse CLI arguments and return ExecutionArgs object"""
 
-    def parse_args(self) -> argparse.Namespace:
-        return self.parser.parse_args()
+    def parse_args(self) -> ExecutionParams:
+        args = self.parser.parse_args()
+        params = ExecutionParams(
+            args.source[0], args.json, args.date, args.limit)
+        return params
