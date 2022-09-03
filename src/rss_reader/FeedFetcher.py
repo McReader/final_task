@@ -1,26 +1,23 @@
 import feedparser
 
-from ..domain import Feed, FeedEntry
-from ..ExecutionParams import ExecutionParams
+from .domain import Feed, FeedEntry
 
 
-class FeedReader:
-    """Downloads the feed from the source"""
+class FeedFetcher:
+    """Fetches the feed from the specified source"""
 
     def __init__(self):
         pass
 
-    def load(self, params: ExecutionParams) -> Feed:
-        """Loads the feed from the "source" specified by user.
+    def fetch(self, source: str) -> Feed:
+        """Fetches the feed from the specified source.
 
         Keyword arguments:
-            params: execution params
+            source: Source URL of the feed
 
         Returns:
-            feed
+            Requested feed
         """
-        source = params.source
-
         try:
             response = feedparser.parse(source)
             if response.bozo:
