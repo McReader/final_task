@@ -29,16 +29,16 @@ class FeedFetcher:
         except Exception:
             raise Exception(f"Failed to read feed due to unknown error")
 
-        feed = self._create_feed(response)
+        feed = self._create_feed(response, source)
 
         return feed
 
-    def _create_feed(self, response: dict) -> Feed:
+    def _create_feed(self, response: dict, source: str) -> Feed:
         """Creates the feed from the response"""
         feed_response = response.feed
         return Feed(
             title=feed_response.title,
-            link=feed_response.link,
+            link=source,
             description=feed_response.description,
             entries=self._create_entries(response.entries),
             published=feed_response.published_parsed

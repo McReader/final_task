@@ -1,18 +1,18 @@
 from .RssReaderParams import RssReaderParams
 from .FeedFetcher import FeedFetcher
 
-from .domain import Feed, FeedEntry
-from .data import FeedsRepo, FeedFilters
+from .data import FeedsRepo
+from .domain import Feed
 
 
 class RssReader:
     """Downloads the feed from the source"""
 
-    def __init__(self, fetcher: FeedFetcher, repo: FeedsRepo):
+    def __init__(self, fetcher: FeedFetcher = FeedFetcher(), repo: FeedsRepo = FeedsRepo()):
         self.fetcher = fetcher
         self.repo = repo
 
-    def read_entries(self, params: RssReaderParams) -> list[FeedEntry]:
+    def read(self, params: RssReaderParams) -> list[dict]:
         """Loads the feed entries from the source specified by user and caches it. If the user
         specified the date filter, the feed will be loaded from the cache
 
@@ -22,28 +22,33 @@ class RssReader:
         Returns:
             Array of feed entries
         """
-
-        if self._is_sync_required(params):
+        if not self._is_cache_only(params):
             feed = self._load_from_source(params.source)
-            self._persist_results(feed)
+            self._save_feed(feed)
 
         return self._read_from_cache(params)
 
-    def _is_sync_required(params: RssReaderParams) -> bool:
+    def _is_cache_only(self, params: RssReaderParams) -> bool:
         """Determines if the feed should be loaded from the source"""
-        is_date_filter_empty = params.date is None
-        return is_date_filter_empty
+        has_date_filter = params.date is not None
+        return has_date_filter
 
     def _load_from_source(self, source: str) -> Feed:
         """Loads the feed from the source"""
         return self.fetcher.fetch(source)
 
-    def _persist_results(self, feed: Feed) -> None:
+    def _save_feed(self, feed: Feed) -> None:
         """Persists the feed to the cache"""
         self.repo.upsert(feed)
 
-    def _read_from_cache(self, params: RssReaderParams) -> list[FeedEntry]:
+    def _read_from_cache(self, params: RssReaderParams) -> list[dict]:
         """Reads the feed from the cache"""
-        filters = FeedFilters(source=params.source,
-                              limit=params.limit, date=params.date)
-        return self.repo.get_entries(filters)
+
+        date = params.date
+        source = params.source
+        limit = params.limit
+
+        if source is not None:
+            return self.repo.get_by_source(source, date=date, limit=limit)
+
+        return self.repo.get_all(date=date, limit=limit)

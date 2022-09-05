@@ -1,32 +1,85 @@
-import logging
+from tinydb import TinyDB, Query
+import datetime
+from time import mktime
 
-from ..domain.Feed import Feed
-
-from .FeedFilters import FeedFilters
+from ..domain import Feed
 
 
 class FeedsRepo:
-    def __init__():
-        pass
+    """Repository for the feeds"""
 
-    def get_entries(filters: FeedFilters) -> Feed:
+    def __init__(self, db: TinyDB = TinyDB("db.json")):
+        self.table = db.table("entries")
+
+    def get_all(self, date: datetime.date, limit: int) -> list[Feed]:
         """Gets the feed from the cache starting from the specified publishing
         date.
 
         Keyword arguments:
-            filters: filters to be applied to the collection of feed entries
+            date: publishing date to start from
+            limit: number of entries to return
 
         Returns:
-            feed entries from the cache
+            feeds from the cache
         """
 
-        pass
+        docs = self.table.search()
 
-    def upsert(feed: Feed):
+        return docs
+
+    def get_by_source(self, source: str, date: datetime.date, limit: int) -> Feed:
+        """Gets the feed from the cache starting from the specified publishing
+        date.
+
+        Keyword arguments:
+            source: feed source to filter by
+            date: publishing date to start from
+            limit: number of entries to return
+
+        Returns:
+            feeds from the cache
+        """
+
+        return self.table.search(Query().feed_link == source)
+
+    def upsert(self, feed: Feed):
         """Saves the feed to the cache
 
         Positional arguments:
             feed: feed to save
         """
-        logging.info(f"Saving feed to cache")
-        pass
+
+        self._remove_feed_entries(feed)
+        self._insert_feed_entries(feed)
+
+    def _remove_feed_entries(self, feed: Feed):
+        """Removes feed's entries from the cache
+
+        Positional arguments:
+            feed: feed to remove entries from
+        """
+
+        query = Query().feed_link == feed.link
+        self.table.remove(query)
+
+    def _insert_feed_entries(self, feed: Feed):
+        """Inserts feed's entries to the cache
+
+        Positional arguments:
+            feed: feed to insert entries to
+        """
+        docs = []
+
+        for entry in feed.entries:
+            doc = {
+                "feed_link": feed.link,
+                "feed_title": feed.title,
+                "id": entry.id,
+                "title": entry.title,
+                "link": entry.link,
+                "description": entry.description,
+                "published": mktime(entry.published),
+            }
+            docs.append(doc)
+
+        self.table.insert_multiple(docs)
