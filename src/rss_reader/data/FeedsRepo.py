@@ -23,7 +23,12 @@ class FeedsRepo:
             feeds from the cache
         """
 
-        docs = self.table.search()
+        FeedEntry = Query()
+
+        if date:
+            query = FeedEntry.published >= mktime(date.timetuple())
+
+        docs = self.table.search(query)
 
         return self._limit(docs, limit)
 
@@ -40,7 +45,14 @@ class FeedsRepo:
             feeds from the cache
         """
 
-        docs = self.table.search(Query().feed_link == source)
+        FeedEntry = Query()
+
+        query = FeedEntry.feed_link == source
+
+        if date:
+            query = query & (FeedEntry.published > mktime(date.timetuple()))
+
+        docs = self.table.search(query)
 
         return self._limit(docs, limit)
 
