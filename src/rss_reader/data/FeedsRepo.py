@@ -11,28 +11,7 @@ class FeedsRepo:
     def __init__(self, db: TinyDB = TinyDB("db.json")):
         self.table = db.table("entries")
 
-    def get_all(self, date: datetime.date, limit: int) -> list[Feed]:
-        """Gets the feed from the cache starting from the specified publishing
-        date.
-
-        Keyword arguments:
-            date: publishing date to start from
-            limit: number of entries to return
-
-        Returns:
-            feeds from the cache
-        """
-
-        FeedEntry = Query()
-
-        if date:
-            query = FeedEntry.published >= mktime(date.timetuple())
-
-        docs = self.table.search(query)
-
-        return self._limit(docs, limit)
-
-    def get_by_source(self, source: str, date: datetime.date, limit: int) -> Feed:
+    def get_entries(self, source: str, date: datetime.date, limit: int) -> list[Feed]:
         """Gets the feed from the cache starting from the specified publishing
         date.
 
@@ -47,14 +26,15 @@ class FeedsRepo:
 
         FeedEntry = Query()
 
-        query = FeedEntry.feed_link == source
+        if source:
+            query = FeedEntry.feed_link == source
 
         if date:
-            query = query & (FeedEntry.published > mktime(date.timetuple()))
+            query = FeedEntry.published >= mktime(date.timetuple())
 
         docs = self.table.search(query)
 
-        return self._limit(docs, limit)
+        return docs[:limit]
 
     def upsert(self, feed: Feed):
         """Saves the feed to the cache
@@ -97,16 +77,3 @@ class FeedsRepo:
             docs.append(doc)
 
         self.table.insert_multiple(docs)
-
-    def _limit(self, list: list, limit: int) -> list:
-        """Limits the list to the specified number of items
-
-        Positional arguments:
-            list: list to limit
-            limit: number of items to return
-
-        Returns:
-            limited list
-        """
-
-        return list[:limit]

@@ -44,11 +44,4 @@ class RssReader:
     def _read_from_cache(self, params: RssReaderParams) -> list[dict]:
         """Reads the feed from the cache"""
 
-        date = params.date
-        source = params.source
-        limit = params.limit
-
-        if source is not None:
-            return self.repo.get_by_source(source, date=date, limit=limit)
-
-        return self.repo.get_all(date=date, limit=limit)
+        return self.repo.get_entries(source=params.source, date=params.date, limit=params.limit)
