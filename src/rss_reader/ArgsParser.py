@@ -10,8 +10,8 @@ class ArgsParser:
         parser = argparse.ArgumentParser(
             description='Pure Python command-line RSS reader.')
 
-        parser.add_argument('source', type=str, nargs=1,
-                            help='RSS URL')
+        parser.add_argument('source', type=str,
+                            help='RSS URL', nargs='?', default=None)
 
         parser.add_argument('--version', help='Print version info',
                             action='version', version='%(prog)s 1.0')
@@ -31,5 +31,10 @@ class ArgsParser:
     def parse_args(self) -> ExecutionParams:
         args = self.parser.parse_args()
         params = ExecutionParams(
-            args.source[0], args.json, args.date, args.limit)
+            args.source, args.json, args.date, args.limit)
+
+        if not params.source and not params.date:
+            self.parser.error(
+                'the following arguments are required: source or --date')
+
         return params
