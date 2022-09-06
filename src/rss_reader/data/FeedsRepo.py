@@ -26,11 +26,13 @@ class FeedsRepo:
 
         FeedEntry = Query()
 
+        query = FeedEntry.link.exists()
+
         if source:
-            query = FeedEntry.feed_link == source
+            query = query & (FeedEntry.feed_link == source)
 
         if date:
-            query = FeedEntry.published >= mktime(date.timetuple())
+            query = query & (FeedEntry.published >= mktime(date.timetuple()))
 
         docs = self.table.search(query)
 
