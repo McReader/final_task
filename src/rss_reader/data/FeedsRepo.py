@@ -25,7 +25,7 @@ class FeedsRepo:
 
         docs = self.table.search()
 
-        return docs
+        return self._limit(docs, limit)
 
     def get_by_source(self, source: str, date: datetime.date, limit: int) -> Feed:
         """Gets the feed from the cache starting from the specified publishing
@@ -40,7 +40,9 @@ class FeedsRepo:
             feeds from the cache
         """
 
-        return self.table.search(Query().feed_link == source)
+        docs = self.table.search(Query().feed_link == source)
+
+        return self._limit(docs, limit)
 
     def upsert(self, feed: Feed):
         """Saves the feed to the cache
@@ -83,3 +85,16 @@ class FeedsRepo:
             docs.append(doc)
 
         self.table.insert_multiple(docs)
+
+    def _limit(self, list: list, limit: int) -> list:
+        """Limits the list to the specified number of items
+
+        Positional arguments:
+            list: list to limit
+            limit: number of items to return
+
+        Returns:
+            limited list
+        """
+
+        return list[:limit]

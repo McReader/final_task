@@ -20,7 +20,7 @@ class ArgsParser:
         parser.add_argument(
             '--verbose', help='Outputs verbose status messages', action="store_const", dest="log_level", const=logging.INFO)
         parser.add_argument(
-            '--limit', help='Limit news topics if this parameter provided')
+            '--limit', help='Limit news topics if this parameter provided', type=int)
         parser.add_argument('--date', help='Read articles starting from this date',
                             type=lambda s: datetime.datetime.strptime(s, '%Y%m%d'))
 
