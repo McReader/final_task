@@ -3,18 +3,23 @@ import logging
 from .ArgsParser import ArgsParser
 from .RssReader import RssReader
 
+from .printer.DefaultPrinter import DefaultPrinter
+from .printer.JsonPrinter import JsonPrinter
+
 
 def main():
-    args_parser = ArgsParser()
-    rss_reader = RssReader()
+    params = ArgsParser().parse_args()
 
-    params = args_parser.parse_args()
+    if params.json:
+        printer = JsonPrinter()
+    else:
+        printer = DefaultPrinter()
 
     logging.basicConfig(level=params.log_level)
 
-    feed_entries = rss_reader.read(params)
+    feed_entries = RssReader().read(params)
 
-    print(feed_entries)
+    printer.print(feed_entries)
 
 
 if __name__ == "__main__":
