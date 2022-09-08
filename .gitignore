@@ -11,4 +11,7 @@ __pycache__/
 # virtualenv
 final_task_env/
 
+# cache
+db.json
+
 /Final_Task.md

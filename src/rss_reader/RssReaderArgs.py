@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 from datetime import date
+import logging as logger
 
 
 class Format(Enum):
@@ -10,10 +11,11 @@ class Format(Enum):
 
 
 @dataclass
-class ExecutionParams(object):
+class RssReaderArgs(object):
     """Class for keeping the arguments of the execution."""
 
     source: str
+    log_level: int = logger.WARN
     format: Format = None
     date: date = None
     limit: int = None

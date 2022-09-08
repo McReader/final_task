@@ -10,7 +10,7 @@ def main():
 
     params = args_parser.parse_args()
 
-    # logging.basicConfig(level=params.log_level)
+    logging.basicConfig(level=params.log_level)
 
     feed_entries = rss_reader.read(params)
 

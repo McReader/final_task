@@ -1,3 +1,4 @@
+from .exceptions import NoFeedsFound
 from .RssReaderParams import RssReaderParams
 from .FeedFetcher import FeedFetcher
 
@@ -17,7 +18,7 @@ class RssReader:
         specified the date filter, the feed will be loaded from the cache
 
         Positional arguments:
-            params: RssReaderParams object containing the parameters of the util
+            params: object containing the parameters of the util
 
         Returns:
             Array of feed entries
@@ -26,7 +27,12 @@ class RssReader:
             feed = self._load_from_source(params.source)
             self._save_feed(feed)
 
-        return self._read_from_cache(params)
+        results = self._read_from_cache(params)
+
+        if not results or len(results) == 0:
+            raise NoFeedsFound()
+
+        return results
 
     def _is_cache_only(self, params: RssReaderParams) -> bool:
         """Determines if the feed should be loaded from the source"""

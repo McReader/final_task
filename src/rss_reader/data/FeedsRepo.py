@@ -3,15 +3,16 @@ import datetime
 from time import mktime
 
 from ..domain import Feed
+from ..definitions import CACHE_FILE
 
 
 class FeedsRepo:
     """Repository for the feeds"""
 
-    def __init__(self, db: TinyDB = TinyDB("db.json")):
+    def __init__(self, db: TinyDB = TinyDB(CACHE_FILE)):
         self.table = db.table("entries")
 
-    def get_entries(self, source: str, date: datetime.date, limit: int) -> list[Feed]:
+    def get_entries(self, source: str, date: datetime.date, limit: int) -> list[dict]:
         """Gets the feed from the cache starting from the specified publishing
         date.
 

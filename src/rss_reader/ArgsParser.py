@@ -2,7 +2,7 @@ import argparse
 import logging
 import datetime
 
-from .ExecutionParams import ExecutionParams
+from .RssReaderArgs import RssReaderArgs
 
 
 class ArgsParser:
@@ -28,10 +28,10 @@ class ArgsParser:
 
     """Parse CLI arguments and return ExecutionArgs object"""
 
-    def parse_args(self) -> ExecutionParams:
+    def parse_args(self) -> RssReaderArgs:
         args = self.parser.parse_args()
-        params = ExecutionParams(
-            args.source, args.json, args.date, args.limit)
+        params = RssReaderArgs(
+            args.source, args.log_level, args.json, args.date, args.limit, )
 
         if not params.source and not params.date:
             self.parser.error(
