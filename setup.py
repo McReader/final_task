@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='rss_reader',
-    version='1.0',
+    version='1.1',
     description='Pure Python command-line RSS reader',
     url="https://github.com/McReader/final_task",
     author='Dzianis Roi (McReader)',

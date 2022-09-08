@@ -14,7 +14,7 @@ class ArgsParser:
                             help='RSS URL', nargs='?', default=None)
 
         parser.add_argument('--version', help='Print version info',
-                            action='version', version='%(prog)s 1.0')
+                            action='version', version='%(prog)s 1.1')
         parser.add_argument(
             '--json', help='Print result as JSON in stdout', action='store_false')
         parser.add_argument(
