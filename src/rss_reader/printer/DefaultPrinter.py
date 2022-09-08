@@ -1,4 +1,5 @@
 from tinydb import table
+from datetime import datetime
 
 
 class color:
@@ -16,7 +17,7 @@ class DefaultPrinter:
 
         for entry in entries:
             self._print_attr("Title", entry.get('title'))
-            self._print_attr("Date", entry.get('published'))
+            self._print_date_attr("Date", entry.get('published'))
             self._print_attr("Link", entry.get('link'))
 
             if entry.get('description'):
@@ -28,3 +29,9 @@ class DefaultPrinter:
         "Prints the attribute of the feed entry"
 
         print(f"{color.BOLD}{name}:{color.END} {attr}", end="\n\n")
+
+    def _print_date_attr(self, name: str, timestamp: float) -> None:
+        "Prints the date attribute of the feed entry"
+
+        date = datetime.fromtimestamp(timestamp)
+        self._print_attr(name, date)
