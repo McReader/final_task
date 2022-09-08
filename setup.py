@@ -14,7 +14,7 @@ setup(
     package_dir={"": "src"},
     entry_points={
         "console_scripts": [
-            "rss_reader=rss_reader:main",
+            "rss_reader=rss_reader_cli:main",
         ],
     },
 )

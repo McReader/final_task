@@ -2,7 +2,7 @@ from tinydb import TinyDB, Query
 import datetime
 from time import mktime
 
-from ..domain import Feed
+from ..api.Feed import Feed
 from ..definitions import CACHE_FILE
 
 

@@ -1,16 +1,17 @@
 from .exceptions import NoFeedsFound
 from .RssReaderParams import RssReaderParams
-from .FeedFetcher import FeedFetcher
 
 from .data import FeedsRepo
-from .domain import Feed
+
+from .api.Feed import Feed
+from .api.Api import Api
 
 
 class RssReader:
     """Downloads the feed from the source"""
 
-    def __init__(self, fetcher: FeedFetcher = FeedFetcher(), repo: FeedsRepo = FeedsRepo()):
-        self.fetcher = fetcher
+    def __init__(self, api: Api = Api(), repo: FeedsRepo = FeedsRepo()):
+        self.api = api
         self.repo = repo
 
     def read(self, params: RssReaderParams) -> list[dict]:
@@ -41,7 +42,7 @@ class RssReader:
 
     def _load_from_source(self, source: str) -> Feed:
         """Loads the feed from the source"""
-        return self.fetcher.fetch(source)
+        return self.api.fetch_feed(source)
 
     def _save_feed(self, feed: Feed) -> None:
         """Persists the feed to the cache"""
