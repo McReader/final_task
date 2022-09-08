@@ -54,6 +54,6 @@ class FeedFetcher:
             id=entry.id,
             title=entry.title,
             link=entry.link,
-            description="",
+            description=getattr(entry, "description", None),
             published=entry.published_parsed
         )

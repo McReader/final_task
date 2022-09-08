@@ -16,7 +16,7 @@ class ArgsParser:
         parser.add_argument('--version', help='Print version info',
                             action='version', version='%(prog)s 1.1')
         parser.add_argument(
-            '--json', help='Print result as JSON in stdout', action='store_false')
+            '--json', help='Print result as JSON in stdout', action='store_true')
         parser.add_argument(
             '--verbose', help='Outputs verbose status messages', action="store_const", dest="log_level", const=logging.INFO)
         parser.add_argument(
@@ -31,7 +31,7 @@ class ArgsParser:
     def parse_args(self) -> RssReaderArgs:
         args = self.parser.parse_args()
         params = RssReaderArgs(
-            args.source, args.log_level, args.json, args.date, args.limit, )
+            source=args.source, log_level=args.log_level, json=args.json, date=args.date, limit=args.limit)
 
         if not params.source and not params.date:
             self.parser.error(

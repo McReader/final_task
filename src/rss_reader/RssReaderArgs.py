@@ -16,6 +16,6 @@ class RssReaderArgs(object):
 
     source: str
     log_level: int = logger.WARN
-    format: Format = None
+    json: bool = False
     date: date = None
     limit: int = None
