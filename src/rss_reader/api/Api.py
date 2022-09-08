@@ -1,15 +1,16 @@
 import feedparser
 
-from .domain import Feed, FeedEntry
+from .Feed import Feed
+from .FeedEntry import FeedEntry
 
 
-class FeedFetcher:
+class Api:
     """Fetches the feed from the specified source"""
 
     def __init__(self):
         pass
 
-    def fetch(self, source: str) -> Feed:
+    def fetch_feed(self, source: str) -> Feed:
         """Fetches the feed from the specified source.
 
         Keyword arguments:
