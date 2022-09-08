@@ -1,20 +1,21 @@
-import argparse
+import logging
 
-parser = argparse.ArgumentParser(
-    description='Pure Python command-line RSS reader.')
-
-parser.add_argument('source', type=str, nargs=1,
-                    help='RSS URL')
-
-parser.add_argument('--version', help='Print version info',
-                    action='version', version='%(prog)s 1.0')
-parser.add_argument(
-    '--json', help='Print result as JSON in stdout', action='store_false')
-parser.add_argument(
-    '--verbose', help='Outputs verbose status messages', action='store_false')
-parser.add_argument(
-    '--limit', help='Limit news topics if this parameter provided')
+from .ArgsParser import ArgsParser
+from .RssReader import RssReader
 
 
 def main():
-    args = parser.parse_args()
+    args_parser = ArgsParser()
+    rss_reader = RssReader()
+
+    params = args_parser.parse_args()
+
+    logging.basicConfig(level=params.log_level)
+
+    feed_entries = rss_reader.read(params)
+
+    print(feed_entries)
+
+
+if __name__ == "__main__":
+    main()

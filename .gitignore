@@ -8,4 +8,10 @@ __pycache__/
 *.so
 *~
 
+# virtualenv
+final_task_env/
+
+# cache
+db.json
+
 /Final_Task.md

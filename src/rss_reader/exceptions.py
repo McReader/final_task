@@ -1,0 +1,2 @@
+class NoFeedsFound(Exception):
+    pass
