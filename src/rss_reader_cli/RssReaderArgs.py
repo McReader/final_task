@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass, field
 from datetime import date
 import logging as logger
@@ -24,8 +25,13 @@ class RssReaderArgs(object):
         """Post init hook"""
 
         if self.to_html:
-            self.output_file = self.to_html
+            self.output_file = self._get_absolute_path(self.to_html)
             self.output_file_format = Format.HTML
         elif self.to_mobi:
-            self.output_file = self.to_mobi
+            self.output_file = self._get_absolute_path(self.to_mobi)
             self.output_file_format = Format.MOBI
+
+    def _get_absolute_path(self, path: str) -> str:
+        """Get the absolute path of the file"""
+
+        return os.path.abspath(path)

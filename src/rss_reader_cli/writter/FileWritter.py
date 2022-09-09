@@ -10,5 +10,5 @@ class FileWritter(Writter):
     def write(self, content: str) -> None:
         "Prints the content to the file"
 
-        with open(f"{self.path}", 'w') as file:  # Use file to refer to the file object
+        with open(self.path, 'w') as file:
             file.write(content)
