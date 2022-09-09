@@ -24,14 +24,28 @@ class ArgsParser:
         parser.add_argument('--date', help='Read articles starting from this date',
                             type=lambda s: datetime.datetime.strptime(s, '%Y%m%d'))
 
+        group = parser.add_mutually_exclusive_group()
+        group.add_argument('--to-html', type=str,
+                           help='Convert news to html and write to file')
+        group.add_argument('--to-mobi', type=str,
+                           help='Convert news to mobi and write to file')
+
         self.parser = parser
 
     """Parse CLI arguments and return ExecutionArgs object"""
 
     def parse_args(self) -> RssReaderArgs:
         args = self.parser.parse_args()
+
         params = RssReaderArgs(
-            source=args.source, log_level=args.log_level, json=args.json, date=args.date, limit=args.limit)
+            source=args.source,
+            log_level=args.log_level,
+            json=args.json,
+            date=args.date,
+            limit=args.limit,
+            to_html=args.to_html,
+            to_mobi=args.to_mobi
+        )
 
         if not params.source and not params.date:
             self.parser.error(

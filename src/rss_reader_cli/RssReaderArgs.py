@@ -1,13 +1,8 @@
-from dataclasses import dataclass
-from enum import Enum
+from dataclasses import dataclass, field
 from datetime import date
 import logging as logger
 
-
-class Format(Enum):
-    """Enum of the all possible format converters"""
-
-    JSON = 1
+from .formatter.Format import Format
 
 
 @dataclass
@@ -19,3 +14,18 @@ class RssReaderArgs(object):
     json: bool = False
     date: date = None
     limit: int = None
+    to_html: str = None
+    to_mobi: str = None
+
+    output_file: str = field(init=False, default=None)
+    output_file_format: Format = field(init=False, default=None)
+
+    def __post_init__(self):
+        """Post init hook"""
+
+        if self.to_html:
+            self.output_file = self.to_html
+            self.output_file_format = Format.HTML
+        elif self.to_mobi:
+            self.output_file = self.to_mobi
+            self.output_file_format = Format.MOBI
