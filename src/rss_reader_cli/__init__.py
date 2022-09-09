@@ -6,6 +6,7 @@ from rss_reader import RssReader
 from .ArgsParser import ArgsParser
 
 from .writter.DefaultWritter import DefaultWritter
+from .writter.FileWritter import FileWritter
 
 from .formatter.Format import Format
 from .formatter.get_formatter import get_formatter
@@ -30,9 +31,11 @@ def main():
 
     if params.output_file:
         logging.info(f"writting feed to the file: {params.output_file}")
+        file_writter = FileWritter(params.output_file)
         formatter = get_formatter(params.output_file_format)
+
         file_content = formatter.format(feed_entries)
-        print(file_content)
+        file_writter.write(file_content)
 
 
 if __name__ == "__main__":
