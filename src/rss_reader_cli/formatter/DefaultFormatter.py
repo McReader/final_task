@@ -10,7 +10,7 @@ class Color:
 class DefaultFormatter(Formatter):
     "Formats the list of feed entries as a simple formatted string"
 
-    def format(self, entries: list[dict]) -> None:
+    def format(self, entries: list[dict]) -> str:
         "Prints the list of feed entries to the console"
 
         lines = ['\n']

@@ -26,9 +26,9 @@ class ArgsParser:
 
         group = parser.add_mutually_exclusive_group()
         group.add_argument('--to-html', type=str,
-                           help='Convert news to html and write to file')
-        group.add_argument('--to-mobi', type=str,
-                           help='Convert news to mobi and write to file')
+                           help='Export news to .html file')
+        group.add_argument('--to-fb2', type=str,
+                           help='Export news to .fb2 file')
 
         self.parser = parser
 
@@ -44,7 +44,7 @@ class ArgsParser:
             date=args.date,
             limit=args.limit,
             to_html=args.to_html,
-            to_mobi=args.to_mobi
+            to_fb2=args.to_fb2
         )
 
         if not params.source and not params.date:
