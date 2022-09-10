@@ -14,7 +14,7 @@ class ArgsParser:
                             help='RSS URL', nargs='?', default=None)
 
         parser.add_argument('--version', help='Print version info',
-                            action='version', version='%(prog)s 1.2')
+                            action='version', version='%(prog)s 1.3')
         parser.add_argument(
             '--json', help='Print result as JSON in stdout', action='store_true')
         parser.add_argument(
@@ -24,14 +24,28 @@ class ArgsParser:
         parser.add_argument('--date', help='Read articles starting from this date',
                             type=lambda s: datetime.datetime.strptime(s, '%Y%m%d'))
 
+        group = parser.add_mutually_exclusive_group()
+        group.add_argument('--to-html', type=str,
+                           help='Export news to .html file')
+        group.add_argument('--to-fb2', type=str,
+                           help='Export news to .fb2 file')
+
         self.parser = parser
 
     """Parse CLI arguments and return ExecutionArgs object"""
 
     def parse_args(self) -> RssReaderArgs:
         args = self.parser.parse_args()
+
         params = RssReaderArgs(
-            source=args.source, log_level=args.log_level, json=args.json, date=args.date, limit=args.limit)
+            source=args.source,
+            log_level=args.log_level,
+            json=args.json,
+            date=args.date,
+            limit=args.limit,
+            to_html=args.to_html,
+            to_fb2=args.to_fb2
+        )
 
         if not params.source and not params.date:
             self.parser.error(

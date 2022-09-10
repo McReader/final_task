@@ -1,6 +1,8 @@
 argparse==1.4.0
 dataclasses==0.8
 datetime==4.5
+enum==0.4.7
+FB2==0.1.7
 logging==0.4.9.6
 requests==6.0.10
 tinydb==4.7.0
