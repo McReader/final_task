@@ -1,4 +1,6 @@
-import feedparser
+from feedparser import parse, CharacterEncodingUnknown, CharacterEncodingOverride, NonXMLContentType
+
+from ..exceptions import EncodingException, NonXmlTypeException
 
 from .Feed import Feed
 from .FeedEntry import FeedEntry
@@ -7,8 +9,8 @@ from .FeedEntry import FeedEntry
 class Api:
     """Fetches the feed from the specified source"""
 
-    def __init__(self):
-        pass
+    def __init__(self, parse=parse):
+        self.parse = parse
 
     def fetch_feed(self, source: str) -> Feed:
         """Fetches the feed from the specified source.
@@ -20,13 +22,13 @@ class Api:
             Requested feed
         """
         try:
-            response = feedparser.parse(source)
+            response = self.parse(source)
             if response.bozo:
                 raise response.bozo_exception
-        except (feedparser.CharacterEncodingUnknown, feedparser.CharacterEncodingOverride) as e:
-            raise Exception("The feed has incorrectly-declared encodings")
-        except feedparser.NonXMLContentType as e:
-            raise Exception("The feed is not XML")
+        except (CharacterEncodingUnknown, CharacterEncodingOverride):
+            raise EncodingException("The has incorrect encoding")
+        except NonXMLContentType:
+            raise NonXmlTypeException("The feed is not XML")
         except Exception:
             raise Exception(f"Failed to read feed due to unknown error")
 

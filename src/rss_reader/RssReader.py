@@ -1,7 +1,7 @@
 from .exceptions import NoFeedsFound
 from .RssReaderParams import RssReaderParams
 
-from .data import FeedsRepo
+from .data.FeedsRepo import FeedsRepo
 
 from .api.Feed import Feed
 from .api.Api import Api
