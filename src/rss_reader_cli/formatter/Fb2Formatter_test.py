@@ -1,10 +1,10 @@
 import unittest
 from tinydb.table import Document
 
-from .DefaultFormatter import DefaultFormatter
+from .Fb2Formatter import Fb2Formatter
 
 
-class DefaultFormatterTest(unittest.TestCase):
+class Fb2FormatterTest(unittest.TestCase):
 
     def test_format(self):
         document = Document({
@@ -14,10 +14,9 @@ class DefaultFormatterTest(unittest.TestCase):
             "description": "TestDescription"
         }, doc_id=1)
 
-        actual_result = DefaultFormatter().format([document])
+        actual_result = Fb2Formatter().format([document])
 
         self.assertIn("TestTitle", actual_result)
-        self.assertIn("2009-02-13 23:31:30", actual_result)
         self.assertIn("https://test.com", actual_result)
 
 
