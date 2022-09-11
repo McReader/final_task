@@ -1,6 +1,7 @@
 import argparse
 import logging
 import datetime
+from typing import Sequence
 
 from .RssReaderArgs import RssReaderArgs
 
@@ -34,8 +35,8 @@ class ArgsParser:
 
     """Parse CLI arguments and return ExecutionArgs object"""
 
-    def parse_args(self) -> RssReaderArgs:
-        args = self.parser.parse_args()
+    def parse_args(self, args: Sequence[str] = None) -> RssReaderArgs:
+        args = self.parser.parse_args(args)
 
         params = RssReaderArgs(
             source=args.source,
