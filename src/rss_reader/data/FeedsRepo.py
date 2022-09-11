@@ -12,7 +12,7 @@ class FeedsRepo:
     def __init__(self, db: TinyDB = TinyDB(CACHE_FILE)):
         self.table = db.table("entries")
 
-    def get_entries(self, source: str, date: datetime.date, limit: int) -> list[dict]:
+    def get_entries(self, source: str = None, date: datetime.date = None, limit: int = None) -> list[dict]:
         """Gets the feed from the cache starting from the specified publishing
         date.
 
