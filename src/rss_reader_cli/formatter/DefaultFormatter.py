@@ -17,6 +17,7 @@ class DefaultFormatter(Formatter):
 
         for entry in entries:
             lines.append(self._print_entry(entry))
+            lines.append('\n')
 
         return '\n'.join(lines)
 
