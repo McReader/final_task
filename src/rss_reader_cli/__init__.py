@@ -1,7 +1,7 @@
 """RSS Reader command line interface application."""
 
 import logging
-from rss_reader import RssReader
+from rss_reader import RssReader, NoFeedsFound, EncodingException, NonXmlTypeException
 
 from .ArgsParser import ArgsParser
 
@@ -22,7 +22,20 @@ def main():
     writter = DefaultWritter()
 
     logging.info(f"reading RSS feed from {params.source}")
-    feed_entries = rss_reader.read(params)
+    try:
+        feed_entries = rss_reader.read(params)
+    except NoFeedsFound:
+        print("No feeds found")
+        return
+    except EncodingException:
+        print("Error while reading feed. Encoding issue")
+        return
+    except NonXmlTypeException:
+        print("The feed has wrong format. XML format is expected")
+        return
+    except Exception:
+        print("Unable to read feed due to unknown exception")
+        return
 
     logging.info("formatting feed entries")
     output = formatter.format(feed_entries)
@@ -35,7 +48,11 @@ def main():
         formatter = get_formatter(params.output_file_format)
 
         file_content = formatter.format(feed_entries)
-        file_writter.write(file_content)
+
+        try:
+            file_writter.write(file_content)
+        except Exception:
+            print("Error while writting to the file")
 
 
 if __name__ == "__main__":
