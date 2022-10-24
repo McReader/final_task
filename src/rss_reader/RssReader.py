@@ -35,7 +35,8 @@ class RssReader:
 
         return results
 
-    def _is_cache_only(self, params: RssReaderParams) -> bool:
+    @staticmethod
+    def _is_cache_only(params: RssReaderParams) -> bool:
         """Determines if the feed should be loaded from the source"""
         has_date_filter = params.date is not None
         return has_date_filter
